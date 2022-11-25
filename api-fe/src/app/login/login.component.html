@@ -1,0 +1,17 @@
+<section class="login">
+  <div class="container">
+    <h1>Curso Angular</h1>
+    <form>
+      <div class="form-group">
+        <label for="login">Login</label>
+        <input type="text" #user="ngModel" [(ngModel)]="usuario.login" id="login" name="login" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input type="password" #senha="ngModel" [(ngModel)]="usuario.senha" id="senha" name="senha" class="form-control" required>
+      </div>
+
+      <button type="button" [disabled]="user.invalid || senha.invalid" class="btn btn-success" (click)="login()">Acessar</button>
+    </form>
+  </div>
+</section>

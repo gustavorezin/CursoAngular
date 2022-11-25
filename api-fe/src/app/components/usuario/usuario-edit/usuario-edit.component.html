@@ -1,0 +1,216 @@
+<form autocomplete="off" #formValidate="ngForm">
+  <button class="close-button btn btn-secondary" mat-button (click)="fecharCad()" tabindex="-1">
+    X
+  </button>
+  <h1
+    id="modal-title"
+    mat-dialog-title
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragHandle
+  >
+    Cadastro de usuário
+  </h1>
+  <ul class="nav nav-tabs">
+    <li [ngClass]="tab1" (click)="ativaTab(1)">
+      <a href="#tab1" data-toggle="tab">Principal</a>
+    </li>
+    <!-- <li [ngClass]="tab2" (click)="ativaTab(2)">
+      <a href="#tab2" data-toggle="tab">Endereço</a>
+    </li> -->
+    <li [ngClass]="tab3" (click)="ativaTab(3)">
+      <a href="#tab3" data-toggle="tab">Contato</a>
+    </li>
+  </ul>
+  <br>
+  <div mat-dialog-content>
+    <div class="tab-content">
+      <div class="tab-pane" [ngClass]="tab1" id="tab1">
+        <div class="form-row">
+          <div class="col-md-1">
+            <label for="id">ID</label>
+            <input
+              type="number"
+              [(ngModel)]="usuario.id"
+              name="id"
+              id="id"
+              class="form-control"
+              readonly
+            />
+          </div>
+          <div class="col-md-4">
+            <label for="nome">Nome ou Razão Social</label>
+            <span style="color: red;" *ngIf="nomeValidate.invalid"> *</span>
+            <input
+              type="text"
+              required
+              #nomeValidate="ngModel"
+              [(ngModel)]="usuario.nome"
+              class="form-control"
+              name="nome"
+              id="nome"
+            />
+          </div>
+          <div class="col-md-3">
+            <label for="cpfcnpj">CPF/CNPJ</label>
+            <span style="color: red;" *ngIf="cpfValidate.invalid"> *</span>
+            <input
+              type="text"
+              required
+              #cpfValidate="ngModel"
+              [(ngModel)]="usuario.cpf"
+              class="form-control"
+              name="cpfcnpj"
+              id="cpfcnpj"
+            />
+          </div>
+          <div class="col-md-2">
+            <label for="login">Login</label>
+            <span style="color: red;" *ngIf="loginValidate.invalid"> *</span>
+            <input
+              type="text"
+              required
+              #loginValidate="ngModel"
+              [(ngModel)]="usuario.login"
+              class="form-control"
+              name="login"
+              id="login"
+            />
+          </div>
+          <div class="col-md-2">
+            <label for="senha">Senha</label>
+            <span style="color: red;" *ngIf="senhaValidate.invalid"> *</span>
+            <input
+              type="password"
+              required
+              #senhaValidate="ngModel"
+              [(ngModel)]="usuario.senha"
+              class="form-control"
+              name="senha"
+              id="senha"
+            />
+          </div>
+        </div>
+      </div>
+      <!--TAB 02
+      <div class="tab-pane" id="tab2" [ngClass]="tab2">
+        <div class="form-row">
+          <div class="col-md-4">
+            <label for="logradouro">Logradouro</label>
+            <input
+              type="text"
+              name="logradouro"
+              id="logradouro"
+              class="form-control"
+            />
+          </div>
+          <div class="col-md-2">
+            <label for="bairro">Bairro</label>
+            <input
+              type="text"
+              class="form-control"
+              name="bairro"
+              id="bairro"
+            />
+          </div>
+          <div class="col-md-4">
+            <label for="complemento">Complemento</label>
+            <input
+              type="text"
+              class="form-control"
+              name="complemento"
+              id="complemento"
+            />
+          </div>
+          <div class="col-md-2">
+            <label for="cpfcnpj">CEP</label>
+            <input
+              type="text"
+              class="form-control"
+              name="cep"
+              id="cep"
+            />
+          </div>
+          <div class="col-md-2">
+            <label for="uf">Estado</label>
+            <input
+              type="text"
+              class="form-control"
+              name="uf"
+              id="uf"
+            />
+          </div>
+          <div class="col-md-2">
+            <label for="localidade">Cidade</label>
+            <input
+              type="text"
+              class="form-control"
+              name="localidade"
+              id="localidade"
+            />
+          </div>
+        </div>
+      </div>-->
+      <div class="tab-pane" [ngClass]="tab3" id="tab3">
+        <div class="form-row">
+          <br>
+          <div class="col-md-3">
+            <input
+              type="text"
+              name="fone"
+              id="fone"
+              class="form-control"
+            />
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-warning">Adicionar telefone</button>
+          </div>
+        </div>
+        <br>
+        <table class="table table-borderless">
+          <thead>
+            <th scope="col">ID</th>
+            <th scope="col">Número</th>
+            <th scope="col"></th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let fone of usuario.listTelefones">
+              <th scope="row">{{fone.id}}</th>
+              <td scope="row">{{fone.numero}}</td>
+              <td scope="row" class="text-center">
+                <button class="btn btn-outline-danger btn-sm" (click)="deleteTelefone(fone.id)">Deletar</button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="usuario.listTelefones?.length == 0">
+            <tr>
+              <td colspan="3">
+                Não há registros no momento!
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <br>
+  </div>
+  <hr />
+  <div mat-dialog-actions>
+    <div class="row g-2">
+      <div class="col-auto">
+        <button mat-button type="submit" class="btn btn-success" [disabled]="formValidate.invalid" (click)="salvar()">Salvar</button>
+      </div>
+      <div class="col-auto">
+        <button
+          mat-flat-button
+          type="button"
+          class="btn btn-secondary"
+          (click)="fecharCad()"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+</form>

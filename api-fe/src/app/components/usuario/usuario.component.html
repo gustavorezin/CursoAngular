@@ -1,0 +1,39 @@
+<br>
+<form class="row g-3">
+  <div class="col-auto">
+    <input type="text" class="form-control" id="busca" name="busca" [(ngModel)]="busca" placeholder="Pesquisar usuário">
+  </div>
+  <div class="col-auto">
+    <button type="button" (click)="buscaUsuario()" class="btn btn-primary mb-2">Buscar</button>
+
+  </div>
+  <div class="col-auto">
+    <button type="button" (click)="abreCad(0)" class="btn btn-success mb-2">Novo</button>
+  </div>
+</form>
+<br>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <th scope="col">ID</th>
+    <th scope="col">Nome</th>
+    <th scope="col">CPF/CNPJ</th>
+    <th scope="col"></th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let usuario of usuarios">
+      <th (dblclick)="abreCad(usuario.id)" scope="row">{{usuario.id}}</th>
+      <td (dblclick)="abreCad(usuario.id)">{{usuario.nome}}</td>
+      <td (dblclick)="abreCad(usuario.id)">{{usuario.cpf}}</td>
+      <td class="text-center">
+        <a class="btn btn-outline-primary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Ações
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item pointer" (click)="abreCad(usuario.id)">Editar</a>
+          <a class="dropdown-item pointer" (click)="deleteUsuario(usuario.id)">Deletar</a>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
