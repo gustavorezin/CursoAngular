@@ -17,12 +17,10 @@ export class UsuarioComponent implements OnInit {
   currentPage!: number
   totalItems!: number
 
-  constructor(private usuarioService: UsuarioService, private spinner: NgxSpinnerService, private matDialog: MatDialog) {
-
-  }
+  constructor(private usuarioService: UsuarioService, private spinner: NgxSpinnerService, private matDialog: MatDialog) {  }
 
   ngOnInit(): void {
-    this.listar()
+    this.listar(1)
   }
 
   abreCad(id: Number) {
@@ -37,24 +35,17 @@ export class UsuarioComponent implements OnInit {
      }
     const modalDialog = this.matDialog.open(UsuarioEditComponent, dialogConfig);
     modalDialog.afterClosed().subscribe(result => {
-      this.listar()
+      this.listar(1)
     });
   }
 
-  listar() {
-    this.usuarioService.getUsuario().subscribe((resposta: any) =>  {
-      this.usuarios = resposta.content
-      this.totalItems = resposta.totalElements
-    })
-  }
-
-  listarPagina(pagina: number) {
+  listar(pagina: number) {
     this.usuarioService.getUsuarioPagina(pagina - 1).subscribe((resposta: any) =>  {
       this.usuarios = resposta.content
       this.totalItems = resposta.totalElements
+      this.currentPage = pagina
     })
   }
-
 
   deleteUsuario(id: Number) {
     Swal.fire({
@@ -72,7 +63,7 @@ export class UsuarioComponent implements OnInit {
       if (result.isConfirmed) {
         this.spinner.show();
         this.usuarioService.deleteUsuario(id).subscribe((resposta) => {
-          this.listar()
+          this.listar(this.currentPage)
           this.spinner.hide()
         });
       }
