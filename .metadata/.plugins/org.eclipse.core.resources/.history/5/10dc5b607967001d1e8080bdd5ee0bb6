@@ -1,0 +1,5 @@
+package com.midas.api.util;
+
+public class CaracterUtil {
+
+}

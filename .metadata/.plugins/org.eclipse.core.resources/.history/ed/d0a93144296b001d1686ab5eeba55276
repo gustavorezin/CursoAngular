@@ -1,0 +1,13 @@
+package com.midas.api.util;
+
+public class CaracterUtil {
+	public static String buscaContexto(String busca) {
+		String ret = busca;
+		
+		if (busca == null || (busca != null && busca.trim().isEmpty()) || busca.equalsIgnoreCase("undefined")) {
+			ret = "";
+		}
+		
+		return ret;
+	}
+}

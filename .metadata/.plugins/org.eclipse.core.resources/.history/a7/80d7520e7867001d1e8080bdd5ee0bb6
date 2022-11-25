@@ -1,0 +1,32 @@
+package com.midas.api.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.midas.api.model.Usuario;
+
+@Repository
+public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
+	
+	// SELECT -------------------------------------------------------------------------------
+	@Query("SELECT u FROM Usuario u WHERE u.login = ?1")
+	Usuario findUserByLogin(String login);
+	
+	@Query("SELECT u FROM Usuario u WHERE u.id = ?1")
+	Usuario findUserById(Long id);
+	
+	@Query("SELECT u FROM Usuario u WHERE u.nome LIKE %?1%")
+	List<Usuario> findUserByName(String nome);
+	
+	// UPDATE -------------------------------------------------------------------------------
+	@Transactional
+	@Modifying
+	@Query(nativeQuery = true, value = "UPDATE usuario SET token = ?1 WHERE login = ?2")
+	void atualizaTokenUsuario(String token, String login);
+}
+

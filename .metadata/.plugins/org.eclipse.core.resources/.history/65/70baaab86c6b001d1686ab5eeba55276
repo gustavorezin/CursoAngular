@@ -1,0 +1,5 @@
+package com.midas.api.repository;
+
+public interface TelefoneRepository {
+
+}
