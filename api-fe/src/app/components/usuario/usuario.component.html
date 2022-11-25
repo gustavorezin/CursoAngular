@@ -21,7 +21,7 @@
     <th scope="col"></th>
   </thead>
   <tbody>
-    <tr *ngFor="let usuario of usuarios">
+    <tr *ngFor="let usuario of usuarios | paginate: {itemsPerPage: 5, currentPage, totalItems}">
       <th (dblclick)="abreCad(usuario.id)" scope="row">{{usuario.id}}</th>
       <td (dblclick)="abreCad(usuario.id)">{{usuario.nome}}</td>
       <td (dblclick)="abreCad(usuario.id)">{{usuario.cpf}}</td>
@@ -37,3 +37,13 @@
     </tr>
   </tbody>
 </table>
+<div class="form-row" *ngIf="usuarios?.length !== 0">
+  <div class="col-md-12 text-center">
+    <pagination-controls
+      [responsive]="true"
+      (pageChange)="listarPagina(currentPage = $event)"
+      previousLabel=""
+      nextLabel=""
+    ></pagination-controls>
+  </div>
+</div>

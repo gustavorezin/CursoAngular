@@ -20,6 +20,10 @@ export class UsuarioService {
     return this.http.get<User>(AppConstants.baseUrl + id)
   }
 
+  getUsuarioPagina(pagina: Number): Observable<User> {
+    return this.http.get<User>(`${AppConstants.baseUrl}pagina/${pagina}`)
+  }
+
   deleteUsuario(id: Number): Observable<void> {
     return this.http.delete<void>(AppConstants.baseUrl + id)
   }

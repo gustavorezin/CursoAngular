@@ -11,6 +11,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -46,20 +49,34 @@ public class IndexController {
 	public ResponseEntity<Usuario> init(@PathVariable(value="id") Long id) {
 		
 		Optional<Usuario> usuario = usuarioRp.findById(id);
-		System.out.println(usuario.get().getNome());
 		
 		return new ResponseEntity<Usuario>(usuario.get(), HttpStatus.OK);
 	}
 	
-	// Consulta todos os users
+	//Consulta todos os users
 	@GetMapping(value = "/", produces = "application/json")
 	@CacheEvict(value = "cacheusuarios", allEntries = true)
 	@CachePut("cacheusuarios")
-	public ResponseEntity<List<Usuario>> usuario() throws InterruptedException {
+	public ResponseEntity<Page<Usuario>> usuario() throws InterruptedException {
 		
-		List<Usuario> listUsuarios = (List<Usuario>) usuarioRp.findAll();
-	
-		return new ResponseEntity<List<Usuario>>(listUsuarios, HttpStatus.OK);
+		PageRequest page = PageRequest.of(0, 5, Sort.by("nome"));
+		
+		Page<Usuario> list = usuarioRp.findAll(page);
+			
+		return new ResponseEntity<Page<Usuario>>(list, HttpStatus.OK);
+	}
+
+	// Consulta todos os users
+	@GetMapping(value = "/pagina/{pagina}", produces = "application/json")
+	@CacheEvict(value = "cacheusuarios", allEntries = true)
+	@CachePut("cacheusuarios")
+	public ResponseEntity<Page<Usuario>> usuarioPagina(@PathVariable("pagina") int pagina) throws InterruptedException {
+		
+		PageRequest page = PageRequest.of(pagina, 5, Sort.by("nome"));
+		
+		Page<Usuario> list = usuarioRp.findAll(page);
+			
+		return new ResponseEntity<Page<Usuario>>(list, HttpStatus.OK);
 	}
 	
 	//Consulta todos os users - busca

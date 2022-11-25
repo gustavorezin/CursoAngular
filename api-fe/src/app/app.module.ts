@@ -12,6 +12,8 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuarioEditComponent } from './components/usuario/usuario-edit/usuario-edit.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpInterceptorModule } from './service/header-interceptor.service';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 export const appRouters: Routes = [
   {path: 'home', component: HomeComponent, canActivate: [GuardiaoGuard]},
@@ -20,6 +22,7 @@ export const appRouters: Routes = [
   {path: 'usuarioList', component: UsuarioComponent, canActivate: [GuardiaoGuard]}
 ]
 export const routes: ModuleWithProviders<any> = RouterModule.forRoot(appRouters)
+export const optionsMask: Partial<IConfig> | (() => Partial<IConfig>) = {}
 
 @NgModule({
   declarations: [
@@ -36,7 +39,9 @@ export const routes: ModuleWithProviders<any> = RouterModule.forRoot(appRouters)
     HttpClientModule,
     routes,
     HttpInterceptorModule,
-    MatDialogModule
+    MatDialogModule,
+    NgxMaskModule.forRoot(optionsMask),
+    NgxPaginationModule
 
   ],
   providers: [],

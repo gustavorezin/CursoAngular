@@ -14,15 +14,15 @@ export class UsuarioComponent implements OnInit {
 
   usuarios!: Array<User>
   busca!: String
+  currentPage!: number
+  totalItems!: number
 
   constructor(private usuarioService: UsuarioService, private spinner: NgxSpinnerService, private matDialog: MatDialog) {
 
   }
 
   ngOnInit(): void {
-    this.usuarioService.getUsuario().subscribe((resposta: any) =>  {
-      this.usuarios = resposta
-    })
+    this.listar()
   }
 
   abreCad(id: Number) {
@@ -43,9 +43,18 @@ export class UsuarioComponent implements OnInit {
 
   listar() {
     this.usuarioService.getUsuario().subscribe((resposta: any) =>  {
-      this.usuarios = resposta
+      this.usuarios = resposta.content
+      this.totalItems = resposta.totalElements
     })
   }
+
+  listarPagina(pagina: number) {
+    this.usuarioService.getUsuarioPagina(pagina - 1).subscribe((resposta: any) =>  {
+      this.usuarios = resposta.content
+      this.totalItems = resposta.totalElements
+    })
+  }
+
 
   deleteUsuario(id: Number) {
     Swal.fire({

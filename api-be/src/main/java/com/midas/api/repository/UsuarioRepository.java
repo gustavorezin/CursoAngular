@@ -2,16 +2,16 @@ package com.midas.api.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.midas.api.model.Usuario;
 
 @Repository
-public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	
 	// SELECT -------------------------------------------------------------------------------
 	@Query("SELECT u FROM Usuario u WHERE u.login = ?1")

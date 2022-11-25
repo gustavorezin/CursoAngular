@@ -48,8 +48,10 @@ public class JWTTokenAutenticacaoService {
 		/*Adiciona no cabeçalho http*/
 		response.addHeader(HEADER_STRING, token); /*Authorization: Bearer 87878we8we787w8e78w78e78w7e87w*/
 		
-		// Libreando resposta para porta diferente :4200
-		//response.addHeader("Access-Control-Allow-Origin", "*");
+		if(response.getHeader("Access-Control-Allow-Origin") == null) {
+			// Libreando resposta para porta diferente :4200
+			response.addHeader("Access-Control-Allow-Origin", "*");			
+		}
 		
 		ApplicationContextLoad.getApplicationContext()
         .getBean(UsuarioRepository.class).atualizaTokenUsuario(JWT, username);
