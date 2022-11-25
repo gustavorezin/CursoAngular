@@ -31,7 +31,7 @@
             <label for="id">ID</label>
             <input
               type="number"
-              [(ngModel)]="usuario.id"
+              [(ngModel)]="cdUsuario.id"
               name="id"
               id="id"
               class="form-control"
@@ -45,7 +45,7 @@
               type="text"
               required
               #nomeValidate="ngModel"
-              [(ngModel)]="usuario.nome"
+              [(ngModel)]="cdUsuario.nome"
               class="form-control"
               name="nome"
               id="nome"
@@ -58,7 +58,7 @@
               type="text"
               required
               #cpfValidate="ngModel"
-              [(ngModel)]="usuario.cpf"
+              [(ngModel)]="cdUsuario.cpf"
               class="form-control"
               name="cpfcnpj"
               id="cpfcnpj"
@@ -71,7 +71,7 @@
               type="text"
               required
               #loginValidate="ngModel"
-              [(ngModel)]="usuario.login"
+              [(ngModel)]="cdUsuario.login"
               class="form-control"
               name="login"
               id="login"
@@ -84,7 +84,7 @@
               type="password"
               required
               #senhaValidate="ngModel"
-              [(ngModel)]="usuario.senha"
+              [(ngModel)]="cdUsuario.senha"
               class="form-control"
               name="senha"
               id="senha"
@@ -157,13 +157,14 @@
           <div class="col-md-3">
             <input
               type="text"
-              name="fone"
-              id="fone"
+              [(ngModel)]="telefone.numero"
+              name="numero"
+              id="numero"
               class="form-control"
             />
           </div>
           <div class="col-md-2">
-            <button type="button" class="btn btn-warning">Adicionar telefone</button>
+            <button type="button" class="btn btn-warning" (click)="salvarTelefone()">Adicionar telefone</button>
           </div>
         </div>
         <br>
@@ -173,16 +174,16 @@
             <th scope="col">Número</th>
             <th scope="col"></th>
           </thead>
-          <tbody>
-            <tr *ngFor="let fone of usuario.listTelefones">
+          <tbody *ngIf="cdUsuario.listTelefones?.length !== 0">
+            <tr *ngFor="let fone of cdUsuario.listTelefones; let i = index">
               <th scope="row">{{fone.id}}</th>
               <td scope="row">{{fone.numero}}</td>
               <td scope="row" class="text-center">
-                <button class="btn btn-outline-danger btn-sm" (click)="deleteTelefone(fone.id)">Deletar</button>
+                <button class="btn btn-outline-danger btn-sm" (click)="deleteTelefone(fone.id, i)">Deletar</button>
               </td>
             </tr>
           </tbody>
-          <tbody *ngIf="usuario.listTelefones?.length == 0">
+          <tbody *ngIf="cdUsuario.listTelefones?.length === 0">
             <tr>
               <td colspan="3">
                 Não há registros no momento!
@@ -198,7 +199,7 @@
   <div mat-dialog-actions>
     <div class="row g-2">
       <div class="col-auto">
-        <button mat-button type="submit" class="btn btn-success" [disabled]="formValidate.invalid" (click)="salvar()">Salvar</button>
+        <button mat-button type="submit" class="btn btn-success" [disabled]="formValidate.invalid" (click)="salvarUsuario()">Salvar</button>
       </div>
       <div class="col-auto">
         <button
